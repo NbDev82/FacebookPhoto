@@ -1,5 +1,6 @@
 package com.example.facebookphoto.service;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -13,10 +14,10 @@ public interface ImageService {
                            final OnFailureListener onFailureListener);
 
     void downloadImage(Uri imageUri,
-                       final OnSuccessListener<byte[]> onSuccessListener,
+                       final OnSuccessListener<Bitmap> onSuccessListener,
                        final OnFailureListener onFailureListener);
 
     void downloadAllImages(List<Uri> imageUris,
-                           final OnSuccessListener<List<byte[]>> onSuccessListener,
+                           final OnSuccessListener<List<Bitmap>> onSuccessListener,
                            final OnFailureListener onFailureListener);
 }
