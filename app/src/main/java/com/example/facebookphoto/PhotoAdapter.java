@@ -22,6 +22,11 @@ public class PhotoAdapter extends ArrayAdapter<Image> {
         super(context, 0, imgList);
     }
 
+    public void addImage(Image image) {
+        add(image);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
