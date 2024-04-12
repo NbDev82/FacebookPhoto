@@ -41,50 +41,26 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void downloadImage(Uri imageUri,
-                              final OnSuccessListener<Bitmap> onSuccessListener,
-                              final OnFailureListener onFailureListener) {
-        if (imageUri != null) {
-            StorageReference storageRef = storageReference.child(imageUri.getPath());
+    public void convertUriListToBitmaps(List<Uri> imageUris,
+                                               final OnSuccessListener<List<Bitmap>> onSuccessListener,
+                                               final OnFailureListener onFailureListener) {
+        List<Bitmap> bitmaps = new ArrayList<>();
 
-            storageRef.getBytes(Long.MAX_VALUE)
-                    .addOnSuccessListener(bytes -> {
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        if (onSuccessListener != null) {
-                            onSuccessListener.onSuccess(bitmap);
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        if (onFailureListener != null) {
-                            onFailureListener.onFailure(e);
-                        }
-                    });
-        }
-    }
+        FirebaseStorage storage = FirebaseStorage.getInstance();
 
-    @Override
-    public void downloadAllImages(List<Uri> imageUris,
-                                  final OnSuccessListener<List<Bitmap>> onSuccessListener,
-                                  final OnFailureListener onFailureListener) {
+        for (Uri uri : imageUris) {
+            StorageReference storageRef = storage.getReferenceFromUrl(uri.toString());
 
-        int totalImages = imageUris.size();
-        final int[] downloadedImages = {0};
-        final List<Bitmap> downloadedBitmaps = new ArrayList<>();
+            storageRef.getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                bitmaps.add(bitmap);
 
-        for (Uri imageUri : imageUris) {
-            downloadImage(imageUri,
-                    bitmap -> {
-                        downloadedBitmaps.add(bitmap);
-                        downloadedImages[0]++;
-                        if (downloadedImages[0] == totalImages) {
-                            onSuccessListener.onSuccess(downloadedBitmaps);
-                        }
-                    },
-                    e -> {
-                        if (onFailureListener != null) {
-                            onFailureListener.onFailure(e);
-                        }
-                    });
+                if (bitmaps.size() == imageUris.size()) {
+                    onSuccessListener.onSuccess(bitmaps);
+                }
+            }).addOnFailureListener(e -> {
+                onFailureListener.onFailure(e);
+            });
         }
     }
 }

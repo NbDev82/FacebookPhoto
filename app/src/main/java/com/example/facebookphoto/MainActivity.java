@@ -3,14 +3,21 @@ package com.example.facebookphoto;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.GridView;
 
 import com.example.facebookphoto.service.ImageService;
 import com.example.facebookphoto.service.ImageServiceImpl;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private GridView mGridView;
@@ -41,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadImages() {
-        String folderPath = "images/";
+        String folderPath = "images";
         imageService.fetchAllImageUris(folderPath,
                 imageUris -> {
-                    imageService.downloadAllImages(imageUris,
+                    imageService.convertUriListToBitmaps(imageUris,
                             downloadedBitmaps -> {
                                 for (Bitmap bitmap : downloadedBitmaps) {
-                                    mPhotos.add(new Image("asd", bitmap));
+                                    mPhotoAdapter.addImage(new Image("asd", bitmap));
                                 }
                             },
                             e -> {

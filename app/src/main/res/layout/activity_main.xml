@@ -48,18 +48,23 @@
     </LinearLayout>
 
 
-
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="3"
-        android:horizontalSpacing="5dp"
-        android:verticalSpacing="5dp"
-        android:padding="5dp"
+        android:layout_height="wrap_content"
         android:columnWidth="100dp"
         android:gravity="center"
-        android:stretchMode="columnWidth" />
+        android:horizontalSpacing="5dp"
+        android:numColumns="2"
+        android:padding="5dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="21110828 - 21110120"
+        android:gravity="center"/>
 </LinearLayout>
 
 

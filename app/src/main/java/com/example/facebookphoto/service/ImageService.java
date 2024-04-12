@@ -13,11 +13,7 @@ public interface ImageService {
                            final OnSuccessListener<List<Uri>> onSuccessListener,
                            final OnFailureListener onFailureListener);
 
-    void downloadImage(Uri imageUri,
-                       final OnSuccessListener<Bitmap> onSuccessListener,
-                       final OnFailureListener onFailureListener);
-
-    void downloadAllImages(List<Uri> imageUris,
-                           final OnSuccessListener<List<Bitmap>> onSuccessListener,
-                           final OnFailureListener onFailureListener);
+    void convertUriListToBitmaps(List<Uri> imageUris,
+                                 final OnSuccessListener<List<Bitmap>> onSuccessListener,
+                                 final OnFailureListener onFailureListener);
 }
