@@ -27,7 +27,6 @@
             app:backgroundTint="@color/cardview_light_background"
             app:srcCompat="@drawable/ic_add" />
         <ImageView
-            android:onClick="@{() -> viewModel.toggleVideo()}"
             android:id="@+id/video_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
