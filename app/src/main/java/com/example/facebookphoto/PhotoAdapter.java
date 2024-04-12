@@ -9,50 +9,35 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class PhotoAdapter extends ArrayAdapter<Bitmap> {
-    private Context mContext;
-    private ArrayList<Bitmap> mPhotos;
+public class PhotoAdapter extends ArrayAdapter<Image> {
 
-    public void addPhoto(Bitmap photo) {
-        mPhotos.add(photo);
-        notifyDataSetChanged();
-    }
-
-
-    public PhotoAdapter(@NonNull Context context, ArrayList<Bitmap> photos) {
-        super(context, 0, photos);
-        mContext = context;
-        mPhotos = photos;
-    }
-
-    @Override
-    public int getCount() {
-        return mPhotos.size();
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+    public PhotoAdapter(@NonNull Context context, ArrayList<Image> imgList) {
+        super(context, 0, imgList);
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        ImageView imageView = (ImageView) convertView;
-        if (imageView == null) {
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        View listitemView = convertView;
+        if (listitemView == null) {
+            listitemView = LayoutInflater.from(getContext()).inflate(R.layout.card_item, parent, false);
         }
-        Bitmap photo = mPhotos.get(position);
-        imageView.setImageBitmap(photo);
-        return imageView;
+
+        Image img = getItem(position);
+        TextView courseTV = listitemView.findViewById(R.id.idTVName);
+        ImageView courseIV = listitemView.findViewById(R.id.idIVImg);
+
+        courseTV.setText(img.getImg_name());
+        courseIV.setImageBitmap(img.getImg());
+        return listitemView;
     }
 }
 
