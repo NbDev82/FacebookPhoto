@@ -25,9 +25,7 @@ public class ImageServiceImpl implements ImageService {
                                   final OnSuccessListener<List<Uri>> onSuccessListener,
                                   final OnFailureListener onFailureListener) {
 
-        StorageReference folderReference = storageReference.child(folderPath);
-
-        folderReference.listAll()
+        storageReference.listAll()
                 .addOnSuccessListener(listResult -> {
                     List<Uri> imageUris = new ArrayList<>();
                     for (StorageReference item : listResult.getItems()) {
